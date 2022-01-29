@@ -1,0 +1,1 @@
+export { root as resolvers } from './root'
