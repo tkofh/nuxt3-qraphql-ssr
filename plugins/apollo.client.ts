@@ -1,6 +1,9 @@
-import { defineNuxtPlugin } from "#app";
-import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client/core";
-import {GetNameDocument} from "~/graphql/codegen";
+import {defineNuxtPlugin} from "#app";
+import {ApolloClient} from "@apollo/client/core/ApolloClient";
+import {InMemoryCache} from "@apollo/client/cache/inmemory/inMemoryCache";
+import {HttpLink} from '@apollo/client/link/http'
+// import {GetNameDocument} from "~/graphql/codegen";
+import {provideApolloClient} from "~/packages/apollo";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const link = new HttpLink({
@@ -10,9 +13,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const cache = new InMemoryCache()
   cache.restore(nuxtApp.payload.state.APOLLO_CACHE_DATA)
 
-  const client = new ApolloClient({ link, cache })
+  const client = new ApolloClient({link, cache})
 
-  console.log(await client.query({ query: GetNameDocument, fetchPolicy: 'cache-first' }))
+  provideApolloClient(client)
 
   return {
     provide: {

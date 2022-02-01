@@ -1,13 +1,8 @@
 import {makeExecutableSchema} from "@graphql-tools/schema";
-import gql from 'graphql-tag'
-// import typeDefs from './merged.graphql?raw'
+import {typeDefs} from './typeDefs'
 import {resolvers} from "./resolvers";
 
 export const schema = makeExecutableSchema({
-  typeDefs: gql`
-    type Query {
-      name: String!
-    }
-  `,
+  typeDefs,
   resolvers,
 })

@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http'
-import {ApolloServer} from "apollo-server";
+import {ApolloServerBase as ApolloServer} from "apollo-server-core";
 import {useBody, isMethod, appendHeader} from "h3";
 import { schema } from '~/graphql/schema'
 

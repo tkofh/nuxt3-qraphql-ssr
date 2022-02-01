@@ -2,8 +2,15 @@ overwrite: true
 schema: "./graphql/schema/definition/**.graphql"
 documents: "./graphql/operations/**.graphql"
 generates:
-  graphql/schema/merged.graphql:
+  graphql/schema/typeDefs.ts:
     plugins:
+      - add:
+          content:
+            - 'import gql from "graphql-tag"'
+            - 'export const typeDefs = gql`'
+      - add:
+          placement: 'append'
+          content: '`'
       - "schema-ast"
   graphql/fragments.json:
     plugins:
@@ -17,3 +24,4 @@ generates:
       - "typescript-vue-apollo"
     config:
       vueCompositionApiImportFrom: vue
+      vueApolloComposableImportFrom: '~/packages/apollo'

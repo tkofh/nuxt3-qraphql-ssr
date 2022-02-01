@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import gql from 'graphql-tag';
-import * as VueApolloComposable from '@vue/apollo-composable';
+import * as VueApolloComposable from '~/packages/apollo';
 import * as VueCompositionApi from 'vue';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -20,6 +20,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   name: Scalars['String'];
+  number: Scalars['Int'];
 };
 
 
@@ -92,6 +93,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
 };
@@ -99,12 +101,14 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  Int: Scalars['Int'];
   Query: {};
   String: Scalars['String'];
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -117,10 +121,20 @@ export type GetNameQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetNameQuery = { __typename?: 'Query', name: string };
 
+export type GetNumberQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNumberQuery = { __typename?: 'Query', number: number };
+
 
 export const GetName = gql`
     query GetName {
   name
+}
+    `;
+export const GetNumber = gql`
+    query GetNumber {
+  number
 }
     `;
 
@@ -146,3 +160,25 @@ export function useGetNameQuery(options: VueApolloComposable.UseQueryOptions<Get
   return VueApolloComposable.useQuery<GetNameQuery, GetNameQueryVariables>(GetNameDocument, {}, options);
 }
 export type GetNameQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetNameQuery, GetNameQueryVariables>;
+export const GetNumberDocument = gql`
+    query GetNumber {
+  number
+}
+    `;
+
+/**
+ * __useGetNumberQuery__
+ *
+ * To run a query within a Vue component, call `useGetNumberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNumberQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useGetNumberQuery();
+ */
+export function useGetNumberQuery(options: VueApolloComposable.UseQueryOptions<GetNumberQuery, GetNumberQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetNumberQuery, GetNumberQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetNumberQuery, GetNumberQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<GetNumberQuery, GetNumberQueryVariables>(GetNumberDocument, {}, options);
+}
+export type GetNumberQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetNumberQuery, GetNumberQueryVariables>;

@@ -1,19 +1,28 @@
-import { defineNuxtConfig } from 'nuxt3'
+import {defineNuxtConfig} from 'nuxt3'
+import replace from '@rollup/plugin-replace'
 
-// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
+const isProd = process.env.NODE_ENV === 'production'
+
 export default defineNuxtConfig({
   vite: false,
-  build: {
-    transpile: ['@apollo', 'ts-invariant'],
-    plugins: [
-      new (class {
-        apply(compiler) {
-          compiler.options.module.rules.push({
-            resourceQuery: /raw/,
-            use: 'raw-loader',
-          })
+  nitro: {
+    externals: isProd ? false : undefined,
+    hooks: {
+      nitro: {
+        rollup: {
+          before: (nitroContext) => {
+            nitroContext.rollupConfig.plugins.push(replace({
+              values: {
+                'util.globalThis.': 'util.global.'
+              },
+              preventAssignment: true,
+            }))
+          }
         }
-      })
-    ]
+      }
+    },
+  },
+  build: {
+    transpile: ['@apollo/client', 'ts-invariant'],
   }
 })
